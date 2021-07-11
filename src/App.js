@@ -74,7 +74,9 @@ class App extends Component {
             break;
         }
       })
-      .catch()
+      .catch(error => {
+        console.error('Failed to fetch data', error);
+      })
   }
   render(){
   const { 
@@ -87,7 +89,7 @@ class App extends Component {
   return (
       <BrowserRouter>
         <div className="container">
-          <SearchForm />
+          <SearchForm onSearch={this.search} />
           <Nav />
           <Switch>
             <Route exact path="/" render={ ()=> <div>Tip: use predefine search terms or use the search box to look for images</div> }  />
