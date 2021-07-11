@@ -1,8 +1,11 @@
 import React, { Component }from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
+import urlBuilder from './utils';
+import api_key from './config';
 import SearchForm from './Components/SearchForm';
 import Nav from './Components/Nav';
+import SearchResult from './Components/SearchResult';
 import NotFound from './Components/NotFound';
 
 class App extends Component {
@@ -13,10 +16,10 @@ class App extends Component {
       isLoadingCatsData: true,
       isLoadingDogsData: true,
       isLoadingCompsData: true,
-      searchData: [],
-      cats:[],
-      dogs:[],
-      computers:[]
+      searchData: {},
+      cats:{},
+      dogs:{},
+      computers:{}
     }
   }
 
@@ -24,34 +27,48 @@ class App extends Component {
     console.log(" Component is mounting ");
     this.search('cats');
     this.search('dogs');
-    this.search('kevin hart');//random search
+    this.search('computers');//random search
   }
   search = query => {
-    //https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=a1f7d4692b627cb749f1c68d9e3f4ba0&tags=cats&media=photos&extras=url_s&per_page=24&format=json&nojsoncallback=1
-    axios.get(`http://api.giphy.com/v1/gifs/search?q=${query}&limit=24&api_key=dc6zaTOxFJmzC`)
+    const urlComponents = {
+      base_url: 'https://www.flickr.com/services/rest/',
+      query_params:{
+        method :'flickr.photos.search',
+        api_key,
+        tags:query,
+        media:'photos',
+        extras:'url_s',//TODO: may need handle is string is a comma-delimited list. p.s encodeURIComponent might be able to handle this.
+        per_page:24,
+        format:'json',
+        nojsoncallback:1
+      }
+    }
+    const url = urlBuilder(urlComponents);
+    axios.get(url)
       .then(res => {
+        console.log(res.data)
         switch (query) {
           case 'cats':
             this.setState({
-              cats: res.data.data,
+              cats: res.data,
               isLoadingCatsData: false,
             });
             break;
           case 'dogs':
             this.setState({
-              dogs: res.data.data,
+              dogs: res.data,
               isLoadingDogsData: false,
             });
             break;
           case 'computers':
             this.setState({
-              computersgs: res.data.data,
+              computers: res.data,
               isLoadingCompsData: false,
             });
             break;
           default:
             this.setState({
-              searchData: res.data.data,
+              searchData: res.data,
               isLoadingSearchData: false,
             });
             break;
@@ -60,7 +77,13 @@ class App extends Component {
       .catch()
   }
   render(){
-    console.log(this.state);
+  const { 
+    cats, dogs ,computers,
+    isLoadingCatsData,
+    isLoadingDogsData,
+    isLoadingCompsData,
+    // isLoadingSearchData 
+  } = this.state
   return (
       <BrowserRouter>
         <div className="container">
@@ -68,9 +91,17 @@ class App extends Component {
           <Nav />
           <Switch>
             <Route exact path="/" render={ ()=> <div>Tip: use predefine search terms or use the search box to look for images</div> }  />
-            <Route path="/Cats" render={ ()=> <div>cats</div> }  />
-            <Route path="/Dogs" render={ ()=> <div>Dogs</div> }  />
-            <Route path="/Computers" render={ ()=> <div>Computers</div> }  />
+            
+            <Route path="/Cats" render={ ()=> isLoadingCatsData 
+                                                ? <p>Loading...</p> 
+                                                : <SearchResult photos={cats.photos.photo} /> }   />
+
+            <Route path="/Dogs" render={ ()=> isLoadingDogsData 
+                                                ? <p>Loading...</p> 
+                                                : <SearchResult photos={dogs.photos.photo} /> }  />
+            <Route path="/Computers" render={ ()=> isLoadingCompsData 
+                                                ? <p>Loading...</p> 
+                                                : <SearchResult photos={computers.photos.photo} /> }  />
             <Route component={NotFound} />
           </Switch>
         </div>
