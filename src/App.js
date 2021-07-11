@@ -92,18 +92,10 @@ class App extends Component {
           <SearchForm onSearch={this.search} />
           <Nav />
           <Switch>
-            <Route exact path="/" render={ ()=> <div>Tip: use predefine search terms or use the search box to look for images</div> }  />
-            
-            <Route path="/Cats" render={ ()=> isLoadingCatsData 
-                                                ? <p>Loading...</p> 
-                                                : <SearchResult photos={cats.photos.photo} /> }   />
-
-            <Route path="/Dogs" render={ ()=> isLoadingDogsData 
-                                                ? <p>Loading...</p> 
-                                                : <SearchResult photos={dogs.photos.photo} /> }  />
-            <Route path="/Computers" render={ ()=> isLoadingCompsData 
-                                                ? <p>Loading...</p> 
-                                                : <SearchResult photos={computers.photos.photo} /> }  />
+            <Route exact path="/" render={()=> <div>Tip: use predefine search terms or use the search box to look for images</div> }/>
+            <Route path="/Cats" render={()=> isLoadingCatsData ? <p>Loading...</p> : <SearchResult photos={cats.photos.photo} /> }/>
+            <Route path="/Dogs" render={()=> isLoadingDogsData ? <p>Loading...</p> : <SearchResult photos={dogs.photos.photo} /> }/>
+            <Route path="/Computers" render={()=> isLoadingCompsData ?<p>Loading...</p>:<SearchResult photos={computers.photos.photo} /> }  />
             <Route component={NotFound} />
           </Switch>
         </div>
