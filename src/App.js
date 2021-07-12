@@ -12,7 +12,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      isLoadingSearchData: false,
+      isLoadingSearchData: true,
       isLoadingCatsData: true,
       isLoadingDogsData: true,
       isLoadingCompsData: true,
@@ -22,7 +22,6 @@ class App extends Component {
       computers:{}
     }
   }
-
   componentDidMount(){
     console.log(" Component is mounting ");
     this.search('cats');
@@ -46,7 +45,6 @@ class App extends Component {
     const url = urlBuilder(urlComponents);
     axios.get(url)
       .then(res => {
-        console.log(res.data)
         switch (query) {
           case 'cats':
             this.setState({
@@ -80,11 +78,14 @@ class App extends Component {
   }
   render(){
   const { 
-    cats, dogs ,computers,
+    cats, 
+    dogs ,
+    computers,
+    searchData,
     isLoadingCatsData,
     isLoadingDogsData,
     isLoadingCompsData,
-    // isLoadingSearchData 
+    isLoadingSearchData
   } = this.state
   return (
       <BrowserRouter>
@@ -96,6 +97,7 @@ class App extends Component {
             <Route path="/Cats" render={()=> isLoadingCatsData ? <p>Loading...</p> : <SearchResult photos={cats.photos.photo} /> }/>
             <Route path="/Dogs" render={()=> isLoadingDogsData ? <p>Loading...</p> : <SearchResult photos={dogs.photos.photo} /> }/>
             <Route path="/Computers" render={()=> isLoadingCompsData ?<p>Loading...</p>:<SearchResult photos={computers.photos.photo} /> }  />
+            <Route path="/search/:query" render={()=> isLoadingSearchData?<p>Loading...</p>:<SearchResult photos={searchData.photos.photo} /> }  />
             <Route component={NotFound} />
           </Switch>
         </div>
