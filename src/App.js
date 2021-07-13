@@ -7,6 +7,7 @@ import SearchForm from './Components/SearchForm';
 import Nav from './Components/Nav';
 import SearchResult from './Components/SearchResult';
 import NotFound from './Components/NotFound';
+import Loader from './Components/Loader';
 
 class App extends Component {
   constructor(){
@@ -94,10 +95,10 @@ class App extends Component {
           <Nav />
           <Switch>
             <Route exact path="/" render={()=> <div>Tip: use predefine search terms or use the search box to look for images</div> }/>
-            <Route path="/Cats" render={()=> isLoadingCatsData ? <p>Loading...</p> : <SearchResult photos={cats.photos.photo} /> }/>
-            <Route path="/Dogs" render={()=> isLoadingDogsData ? <p>Loading...</p> : <SearchResult photos={dogs.photos.photo} /> }/>
-            <Route path="/Computers" render={()=> isLoadingCompsData ?<p>Loading...</p>:<SearchResult photos={computers.photos.photo} /> }  />
-            <Route path="/search/:query" render={()=> isLoadingSearchData?<p>Loading...</p>:<SearchResult photos={searchData.photos.photo} /> }  />
+            <Route path="/Cats" render={()=> isLoadingCatsData ? <Loader /> : <SearchResult photos={cats.photos.photo} /> }/>
+            <Route path="/Dogs" render={()=> isLoadingDogsData ? <Loader /> : <SearchResult photos={dogs.photos.photo} /> }/>
+            <Route path="/Computers" render={()=> isLoadingCompsData ? <Loader /> : <SearchResult photos={computers.photos.photo} /> }  />
+            <Route path="/search/:query" render={()=> isLoadingSearchData? <Loader /> : <SearchResult photos={searchData.photos.photo} /> }  />
             <Route component={NotFound} />
           </Switch>
         </div>

@@ -10,18 +10,20 @@ class SearchForm extends Component{
         const { action } = this.props.history
         if(action === "POP"){
             const { pathname } = this.props.location;
-            if (pathname !== prevProps.location.pathname) {
-                const queryParam = pathname.split('/')[2];
+            const queryParam = pathname.split('/')[2];
+            if (typeof queryParam !== 'undefined' && pathname !== prevProps.location.pathname) {
                 this.props.onSearch(queryParam);
             }
         }
     }
+    /**
+     * handle reload on the same route. maybe not needed?  
+     */
     componentDidMount(){
         const { action } = this.props.history;
         if(action === "POP"){
             const { pathname } = this.props.location;
             const queryParam = pathname.split('/')[2];
-            console.log(queryParam);
             if (typeof queryParam !== 'undefined') {
                 this.props.onSearch(queryParam);
                 // this.props.history.push(`/`);
@@ -32,8 +34,12 @@ class SearchForm extends Component{
         this.setState({ searchText: e.target.value });
     }
     handleSubmitEvent = e => {
-        this.props.onSearch(this.state.searchText)
+        const { searchText } = this.state;
+        // if (searchText.trim().length > 0)
+        this.props.onSearch(searchText)
         e.currentTarget.reset();
+        // info: alternative approach to <Link to={`/search/${this.state.searchText}`}>
+        // restricts user from searching empty text. unline <Link...>
         this.props.history.push(`/search/${this.state.searchText}`);
         e.preventDefault();
     }
@@ -46,8 +52,10 @@ class SearchForm extends Component{
                     onChange={this.handleChangeEvent}
                     placeholder="search"
                     required/>
-                <button type="submit" className="search-button">
-                <SearchSvg />
+                <button type="submit" className="search-button"> 
+                    {/* <Link to={`/search/${this.state.searchText}`}>     */}
+                    <SearchSvg /> 
+                    {/* </Link> */}
                 </button>
             </form>
         )
