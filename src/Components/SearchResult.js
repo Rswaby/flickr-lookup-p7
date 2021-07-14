@@ -5,7 +5,7 @@ const SearchResult = (props) => {
   if(props.photos.length){
     searchResults = props.photos.map((photo,index) => <Photo key={index} url={photo.url_s} title={photo}/>);
   }else{
-    searchResults = <div></div>
+    searchResults = <></>
   }
   return (
       <div className="photo-container">

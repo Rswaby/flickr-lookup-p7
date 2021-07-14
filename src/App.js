@@ -20,7 +20,8 @@ class App extends Component {
       searchData: {},
       cats:{},
       dogs:{},
-      computers:{}
+      computers:{},
+      isPageNotFound : false
     }
   }
   componentDidMount(){
@@ -28,6 +29,9 @@ class App extends Component {
     this.search('cats');
     this.search('dogs');
     this.search('computers');//random search
+  }
+  handlePageNotFound = bool =>{
+    this.setState({isPageNotFound: bool});
   }
   search = query => {
     const urlComponents = {
@@ -86,20 +90,28 @@ class App extends Component {
     isLoadingCatsData,
     isLoadingDogsData,
     isLoadingCompsData,
-    isLoadingSearchData
+    isLoadingSearchData,
+    isPageNotFound,
   } = this.state
+  const renderSearchAndNav = () =>{
+    return(
+      <>
+        <SearchForm onSearch={this.search} />
+        <Nav />
+      </>
+    )
+  }
   return (
       <BrowserRouter>
         <div className="container">
-          <SearchForm onSearch={this.search} />
-          <Nav />
+          {!isPageNotFound? renderSearchAndNav() : null}
           <Switch>
             <Route exact path="/" render={()=> <div>Tip: use predefine search terms or use the search box to look for images</div> }/>
             <Route path="/Cats" render={()=> isLoadingCatsData ? <Loader /> : <SearchResult photos={cats.photos.photo} /> }/>
             <Route path="/Dogs" render={()=> isLoadingDogsData ? <Loader /> : <SearchResult photos={dogs.photos.photo} /> }/>
             <Route path="/Computers" render={()=> isLoadingCompsData ? <Loader /> : <SearchResult photos={computers.photos.photo} /> }  />
             <Route path="/search/:query" render={()=> isLoadingSearchData? <Loader /> : <SearchResult photos={searchData.photos.photo} /> }  />
-            <Route component={NotFound} />
+            <Route render={()=> <NotFound display={this.handlePageNotFound}/> } />
           </Switch>
         </div>
       </BrowserRouter>
