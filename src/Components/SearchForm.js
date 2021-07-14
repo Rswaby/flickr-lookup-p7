@@ -6,11 +6,15 @@ class SearchForm extends Component{
     state = {
         searchText:''
     }
+    // This will handle nav back and fouth and refeches data.
     componentDidUpdate(prevProps) {
         const { action } = this.props.history
+        // POP is usualy from navigating back and fought. 
         if(action === "POP"){
             const { pathname } = this.props.location;
+            // if url is path="/search/:query", query = which text we should search. 
             const queryParam = pathname.split('/')[2];
+            // if curr props != prevProps make a request with currProps history. 
             if (typeof queryParam !== 'undefined' && pathname !== prevProps.location.pathname) {
                 this.props.onSearch(queryParam);
             }
@@ -40,6 +44,7 @@ class SearchForm extends Component{
         e.currentTarget.reset();
         // info: alternative approach to <Link to={`/search/${this.state.searchText}`}>
         // restricts user from searching empty text. unline <Link...>
+        // send you to <Route path="/search/:query"... and render results component
         this.props.history.push(`/search/${this.state.searchText}`);
         e.preventDefault();
     }

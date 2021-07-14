@@ -1,6 +1,7 @@
 import React from "react";
 
 const SearchSvg = () => {
+  // svg images for seach button icon. 
   return (
     <svg 
         fill="#fff"

@@ -24,16 +24,27 @@ class App extends Component {
       isPageNotFound : false
     }
   }
+  /**
+   * loads default data based on nav fields
+   */
   componentDidMount(){
-    console.log(" Component is mounting ");
+    console.log(" Fetching Default Data ");
     this.search('cats');
     this.search('dogs');
     this.search('computers');//random search
   }
-  handlePageNotFound = bool =>{
+  /**
+   * 
+   * @param {boolean} bool
+   * updates state depending on param.
+   * this will control when Nav and SearchFom are rendered 
+   */
+  handlePageNotFound = bool => {
     this.setState({isPageNotFound: bool});
   }
   search = query => {
+    //this will be used to construct the final URL. 
+    //example: {base_url}?method=flickr.photos.search&api_key={api_key}&tags=cats&media=photos&extras=url_s&per_page=24&format=json&nojsoncallback=1
     const urlComponents = {
       base_url: 'https://www.flickr.com/services/rest/',
       query_params:{
@@ -47,9 +58,13 @@ class App extends Component {
         nojsoncallback:1
       }
     }
+    // get final URL
     const url = urlBuilder(urlComponents);
+
     axios.get(url)
       .then(res => {
+        // depending on which query param was passed.
+        // update the approp.. state variables
         switch (query) {
           case 'cats':
             this.setState({
@@ -82,29 +97,32 @@ class App extends Component {
       })
   }
   render(){
-  const { 
-    cats, 
-    dogs ,
-    computers,
-    searchData,
-    isLoadingCatsData,
-    isLoadingDogsData,
-    isLoadingCompsData,
-    isLoadingSearchData,
-    isPageNotFound,
-  } = this.state
-  const renderSearchAndNav = () =>{
-    return(
-      <>
-        <SearchForm onSearch={this.search} />
-        <Nav />
-      </>
-    )
+    // deconfruct state variables 
+    const { 
+      cats, 
+      dogs ,
+      computers,
+      searchData,
+      isLoadingCatsData,
+      isLoadingDogsData,
+      isLoadingCompsData,
+      isLoadingSearchData,
+      isPageNotFound,
+    } = this.state;
+    // An easy way to group components that are controlled by a state value.
+    const renderSearchAndNav = () =>{
+      return(
+        <>
+          <SearchForm onSearch={this.search} />
+          <Nav />
+        </>
+      )
   }
   return (
       <BrowserRouter>
         <div className="container">
-          {!isPageNotFound? renderSearchAndNav() : null}
+          {/* if we are on the PageNotFound route, do not render Nav and Search Form*/}
+          { !isPageNotFound? renderSearchAndNav() : null }
           <Switch>
             <Route exact path="/" render={()=> <div>Tip: use predefine search terms or use the search box to look for images</div> }/>
             <Route path="/Cats" render={()=> isLoadingCatsData ? <Loader /> : <SearchResult photos={cats.photos.photo} /> }/>
