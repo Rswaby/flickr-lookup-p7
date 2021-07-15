@@ -2,14 +2,14 @@
 Simple react app that looks up images base on what the user enters into the search bar. 3 categories are already defined 'Cats' 'Dogs' and 'Computers'. This app uses the Flickr API so you would need to sign up at flickr.com to get a free apiKey. 
 ### Project Structure
 
-    flickr-lookup-p7            # root folder
-        ├── public              # contains static files such as css and images
-        ├── src                 #source directory where all the JS lives 
-             ├── Components     # react components 
-             ├── utils          # constains utility functions
-             ├── App.js         # container react component
-             ├── config.example # example config.js file. 
-        ├── data.json           # contains data for protfolio
+    flickr-lookup-p7               # root folder
+        ├── public                 # contains static files such as css and images
+        ├── src                    # source directory where all the JS lives 
+             ├── Components        # react components 
+             ├── utils             # constains utility functions
+             ├── App.js            # container react component
+             ├── config.example.js # example config.js file. 
+        ├── data.json              # contains data for protfolio
         ├── package.json          
         └── README.md
 
