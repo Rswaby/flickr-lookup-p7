@@ -25,7 +25,7 @@ export default apiKey;
 ### How to run
 ```sh
 git clone <repo_link>
-cd express_v1
+cd flickr-lookup-p7
 npm install
 npm start
 ```
