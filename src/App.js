@@ -28,6 +28,7 @@ class App extends Component {
    * loads default data based on nav fields
    */
   componentDidMount(){
+    
     console.log(" Fetching Default Data ");
     this.search('cats');
     this.search('dogs');
@@ -58,6 +59,8 @@ class App extends Component {
         nojsoncallback:1
       }
     }
+    
+    this.setState({isLoadingSearchData:true});
     // get final URL
     const url = urlBuilder(urlComponents);
 
