@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/110add6e-f95c-465e-a6ce-a81a543744ee/deploy-status)](https://app.netlify.com/sites/flickr-lookup/deploys)
+
 # FLICKR-LOOKUP Gallery 
 Simple react app that looks up images base on what the user enters into the search bar. 3 categories are already defined 'Cats' 'Dogs' and 'Computers'. This app uses the Flickr API so you would need to sign up at flickr.com to get a free apiKey. 
 ### Project Structure
