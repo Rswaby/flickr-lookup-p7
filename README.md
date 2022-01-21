@@ -15,11 +15,10 @@ Simple react app that looks up images base on what the user enters into the sear
 
 ### Flickr apiKey setup
 Apply for a non-commercial API key @ https://www.flickr.com/services/apps/create/apply/ . 
-once you get the key, setup a config.js in the src directory use the config.example.js file as blueprint:
+once you get the key, setup a .env which should look like this file as blueprint:
 
-```javaScript
-const apiKey = '<API KEY Goes Here>';
-export default apiKey;
+```sh
+REACT_APP_FLICKR_API_KEY=<API KEY Goes Here>
 ```
 
 ### How to run
