@@ -2,7 +2,6 @@ import React, { Component }from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 import urlBuilder from './utils';
-import apiKey from './config';
 import SearchForm from './Components/SearchForm';
 import Nav from './Components/Nav';
 import SearchResult from './Components/SearchResult';
@@ -50,7 +49,7 @@ class App extends Component {
       base_url: 'https://www.flickr.com/services/rest/',
       query_params:{
         method :'flickr.photos.search',
-        api_key: apiKey,
+        api_key: process.env.REACT_APP_FLICKR_API_KEY,
         tags:query,
         media:'photos',
         extras:'url_s',//TODO: may need handle is string is a comma-delimited list. p.s encodeURIComponent might be able to handle this.
