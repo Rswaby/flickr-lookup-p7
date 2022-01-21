@@ -30,3 +30,4 @@ cd flickr-lookup-p7
 npm install
 npm start
 ```
+LIVE DEMO: https://flickr-lookup.netlify.app/
